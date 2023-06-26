@@ -13,7 +13,12 @@ sigMat = zeros(Nt,dev.proj);
 for p = 1:dev.proj
     
     % Calculate time needed for propagation from every pixel to detector and convert to indices in the time array (nearest interpolation)
-    T = round((sqrt(abs(X(:)-cos(dev.angle_sensor(p))*dev.r_sensor).^2 + abs(Y(:)-sin(dev.angle_sensor(p))*dev.r_sensor).^2)/c0 -t(1))*a*dev.fsample + 1);
+    distance = sqrt(abs((fov_x(:)- x_position(p))).^2 + abs((fov_y(:)- z_position(p))).^2);
+    
+    T = round((distance/speed_of_sound - aquisition_times_in_seconds(1))...
+        *sampling_frequency + 1);
+
+    %T = round((sqrt(abs(X(:)-cos(dev.angle_sensor(p))*dev.r_sensor).^2 + abs(Y(:)-sin(dev.angle_sensor(p))*dev.r_sensor).^2)/c0 -t(1))*a*dev.fsample + 1);
     % handle exceptions
     T(T<1) = 1; T(T>Nt) = Nt;
     

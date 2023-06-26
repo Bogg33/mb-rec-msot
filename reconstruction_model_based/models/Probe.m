@@ -10,7 +10,7 @@ classdef Probe
         coupling;
     end
     properties (Constant)
-        eirLength = 201;
+        eirLength = 79;
     end
     
     methods (Access=public)
@@ -52,8 +52,8 @@ classdef Probe
                 end
                 
                 % Check correct sampling of EIR
-                assert(size(probe.detector.EIR,1) == 201,...
-                    'Length of EIR is defined to be 201 which is not the case. Please adjust the provided EIR for probe %s.',probe.probeId)
+                assert(size(probe.detector.EIR,1) == 79,...
+                    'Length of EIR is defined to be 79 which is not the case. Please adjust the provided EIR for probe %s.',probe.probeId)
             else
                 probe.detector.EIR = zeros(probe.eirLength,1);
                 probe.detector.EIR(floor(probe.eirLength/2)+1,1) = 1;
@@ -98,7 +98,7 @@ classdef Probe
         % Load properties of specific probe
         function probe = get_probe_properties(probe, probeId)
             
-            if strcmpi(probeId ,'example_system')
+            if strcmpi(probeId ,'L11-5v_resampled')
                 % coupling medium
                 probe.coupling.medium = 'heavy water';
                 probe.coupling.speedOfSound = 1397;
@@ -107,24 +107,24 @@ classdef Probe
                 probe.membrane = probe.load_membrane_model('horizontal_example');
                 
                 % detector array
-                probe.detector.numOfTransducers = 256;                      % [1] number of detector elements in array
-                probe.detector.radius = 0.060;                              % [m] imaging plane radius of array
-                probe.detector.angularCoverage = 145;                       % [deg] angular coverage of detector elements in semi-circle with radius=radius
+                probe.detector.numOfTransducers = 128;                      % [1] number of detector elements in array
+                probe.detector.radius = 0;                              % [m] imaging plane radius of array
+                probe.detector.angularCoverage = 0;                       % [deg] angular coverage of detector elements in semi-circle with radius=radius
                 angular_offset = (180-probe.detector.angularCoverage)/2;    % [deg] angular offset from 0 to first detector element
                 angles = ( angular_offset : probe.detector.angularCoverage/(probe.detector.numOfTransducers-1) : (180-angular_offset) ) * pi/180; % [rad] angles of detectors
-                probe.detector.xPositionsOfTransducers = probe.detector.radius*cos(angles);     % [m] x-coordinates of detectors
-                probe.detector.zPositionsOfTransducers = -1*probe.detector.radius*sin(angles);  % [m] z-coordinates of detectors
+                probe.detector.xPositionsOfTransducers = 0.01905:-0.0003:-0.01905;     % [m] x-coordinates of detectors
+                probe.detector.zPositionsOfTransducers = zeros(1,128);  % [m] z-coordinates of detectors
                                 
                 % single detector transducer (all values here made-up placeholders)
-                probe.detector.elevationRadiusOfSingleTransducer = 40e-3;   % [m] elevation radius of single detector curvature
-                probe.detector.heightofSingleTransducer = 20e-3;            % [m] height of single detector
+                probe.detector.elevationRadiusOfSingleTransducer = 18e-3;   % [m] elevation radius of single detector curvature
+                probe.detector.heightofSingleTransducer = 5e-3;            % [m] height of single detector
                 probe.detector.pitchOfTransducers = 0.3e-3;                 % [m] pitch (width+seperation) of single detector
-                probe.detector.seperationBetweenTransducers = 0.2e-3;       % [m] element seperation
+                probe.detector.seperationBetweenTransducers = 0.03e-3;       % [m] element seperation
                  
                 % DAC
-                probe.DAC.numRecordedSamplesPerTransducer = 2030;    % total number of recorded time samples per transducer per scan
-                probe.DAC.delayBeforeRecording = 500;                % time samples delaying start of recording by DAC
-                probe.DAC.frequency = 4e7;                           % [Hz] sampling frequency of DAC
+                probe.DAC.numRecordedSamplesPerTransducer = 1408;    % total number of recorded time samples per transducer per scan
+                probe.DAC.delayBeforeRecording = 0;                % time samples delaying start of recording by DAC
+                probe.DAC.frequency = 31.25e6;                           % [Hz] sampling frequency of DAC
 
             else
                 error('Unknown device id.');

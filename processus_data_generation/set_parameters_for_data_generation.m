@@ -45,7 +45,7 @@ function [...
     use_all_sos_instead_of_only_gt_sos_for_invivo_rec] = set_parameters_for_data_generation()
 
 % General parameters for synthesized and invivo datasets
-output_root_folder = 'C:\Users\bog\Desktop\GENERATED';       % Path to intended output folder for the generated data.
+output_root_folder = '???';       % Path to intended output folder for the generated data.
 path_to_rec_toolbox = 'C:\Users\bog\Desktop\deepmb L11-5v\mb-rec-msot-main';  % Path to model-based reconstruction toolbox.
 device_id = 'L11-5v_resampled';                        % Id of a MOST device defined in the model-based reconstruction toolbox.
 speed_of_sound_range = 1475 : 5 : 1525;              % Range of supported speed of sound values.
@@ -65,7 +65,7 @@ lambda_laplacian = 0;                                % Strength of L2 Laplacian 
 num_iterations_mb = 50;                              % Maximal number of iterations during model-based reconstruction
 
 % Parameters for synthesizing a training and validation dataset
-image_folder = 'C:\Users\bog\Desktop\VOCdevkit\VOC2012\JPEGImages';    % Path to 'JPEGImages' folder of VOC2012 dataset.
+image_folder = '???';    % Path to 'JPEGImages' folder of VOC2012 dataset.
 splits = {'train', 'val'};                                   % Cell array with the split names of the generated dataset.
 voc2012_start_indices_per_split = [1, 12001];                % Incides of first VOC2012 image per split to ensure that no image is used more than one split.
 num_considered_voc2012_imgs_per_split = [0, 8];              % Array with the number of VOC2012 iamges that are processed for each split.
@@ -75,7 +75,7 @@ number_of_different_rec_sos_for_each_img_per_split = [1, 1]; % Number of randoml
 % Total number of samples per split: voc2012_start_indices_per_split(split) * number_of_different_gt_sos_for_each_img_per_split(split) * number_of_different_rec_sos_for_each_img_per_phase(split).
 random_sinogram_scaling = 'UNIFORM_RANGE';                   % 'UNIFORM_RANGE' or 'MATCH_STD_DISTR_OF_INVIVO_SINOGRAMS'; see explanation of the next two parameters
 max_scale_factor_for_initial_images = 100;                   % Scale each VOC2012 image with a factor drawn uniformly at random from the range (0; max_scale_factor_for_initial_images].
-path_to_invivo_sinograms_for_std_distr_estimation = 'C:\Users\bog\Desktop\deepmb-main\deepmb-binaries\in_vivo_data\sinograms';   % Randomly scale all VOC2012 iamges so that the distribution of standard deviations of the generated sinograms matches with the distribution of standard deviations of the (invivo) sinograms in the given folder.
+path_to_invivo_sinograms_for_std_distr_estimation = '???';   % Randomly scale all VOC2012 iamges so that the distribution of standard deviations of the generated sinograms matches with the distribution of standard deviations of the (invivo) sinograms in the given folder.
 initial_img_transform = [];                                  % [Function handle or []] Data transformation that is applied to inital image after the scaling.
 
 % Parameters for synthesizing a invivo test dataset

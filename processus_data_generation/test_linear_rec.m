@@ -103,13 +103,13 @@ model = define_model_for_reconstruction(...
 
 
 sinograms = model.Funcs.applyForward(image);
-imagesc(sinograms), colormap gray, title('sinogram')
 
 rec_imgs_bp = reconstruct_bp(model, K, sinograms);
+rec_imgs_bp = fliplr(rec_imgs_bp);
 figure()
-imagesc(rec_imgs_bp), colormap gray, title('BP linear probe')
+imagesc(rec_imgs_bp), colormap gray, title('BP linear probe'); axis image
 
 
 rec_imgs = reconstruct_model_based(model, sinograms, regularization, lambda_shearlet, lambda_tikhonov, lambda_laplacian, num_iterations_mb);
 figure()
-imagesc(rec_imgs), colormap gray, title('MB linear probe')
+imagesc(rec_imgs), colormap gray, title('MB linear probe'); axis image

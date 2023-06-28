@@ -21,6 +21,8 @@ number_of_transducers = size(sigMat, 2);
 aquisition_times_in_samples = (1:number_of_samples) + cropped_or_unrecorded_signals_at_sinogram_start;
 aquisition_times_in_seconds = aquisition_times_in_samples * dt;
 
+% Angle of transducer (all transuders are pointing downwards).
+angle_of_all_transduers = pi/2;
 
 % Convert sigMat to radial integrals
 sigMat = cumtrapz(aquisition_times_in_seconds, sigMat/speed_of_sound, 1)...
@@ -56,8 +58,9 @@ for wavelength = 1:size(sigMat,3)
 
 
         % add all values in sigMat as indexed by T
-        p0_rec_x(:) = p0_rec_x(:) + sigMat_wl(T,p)*dt*speed_of_sound;
-        p0_rec_y(:) = p0_rec_y(:)' + sigMat_wl(T,p)'*dt*speed_of_sound;
+        p0_rec_x(:) = p0_rec_x(:) + sigMat_wl(T,p).*cos(angle_of_all_transduers)*dt*speed_of_sound;
+        p0_rec_y(:) = p0_rec_y(:) + sigMat_wl(T,p).*sin(angle_of_all_transduers)*dt*speed_of_sound;
+
 %         p0_rec_x(:) = p0_rec_x(:) + sigMat_wl(T,p).*cos(transducer_angles(p))*dt*speed_of_sound;
 %         p0_rec_y(:) = p0_rec_y(:) + sigMat_wl(T,p).*sin(transducer_angles(p))*dt*speed_of_sound;
     end
